@@ -1,0 +1,68 @@
+services:
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - auth_v1
+      - auth_v2
+      - notes_v1
+      - notes_v2
+      - assets
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+
+
+
+  # --------------------
+  # AUTH SERVICE
+  # --------------------
+  auth_v1:
+    build: ./auth
+    container_name: auth_v1
+
+  auth_v2:
+    build: ./auth
+    container_name: auth_v2
+
+  # --------------------
+  # NOTES SERVICE
+  # --------------------
+  notes_v1:
+    build: ./notes
+    container_name: notes_v1
+
+
+  notes_v2:
+    build: ./notes
+    container_name: notes_v2
+
+
+  # --------------------
+  # ASSETS SERVICE
+  # --------------------
+  assets:
+    build: ./assets
+    container_name: assets_service
+
+
+  # --------------------
+  # POSTGRES
+  # --------------------
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_PASSWORD: example
+
+  # --------------------
+  # MONGO
+  # --------------------
+  mongo:
+    image: mongo:7
