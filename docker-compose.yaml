@@ -52,6 +52,10 @@ services:
     build: ./assets
     container_name: assets_service
 
+    volumes:
+      - ./static:/main/app/static
+
+
 
   # --------------------
   # POSTGRES
