@@ -1,15 +1,14 @@
-from fastapi import FastAPI 
+from fastapi import FastAPI
+from api.router import router
+from db.postgres import Base, engine
 
+app = FastAPI()
 
-app = FastAPI() 
+Base.metadata.create_all(bind=engine)
 
+app.include_router(router)
 
-@app.get("/")
-def root() : 
-    return {"service" : "auth"}
 
 @app.get("/health")
-def health() : 
-    return {"status" : "ok"}
-
-
+def health():
+    return {"status": "ok"}

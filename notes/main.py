@@ -9,11 +9,6 @@ app = FastAPI()
 app.include_router(notes_router)
 
 
-
-@app.get("/")
-def root():
-    return {"service": "notes"}
-
 @app.get("/health")
 def health():
     return {"status": "ok"}

@@ -194,7 +194,6 @@ Purpose:
 
 -   Non-root container execution
 -   Slim base images
--   Gunicorn + Uvicorn workers
 -   Gateway-based routing
 -   Rate limiting
 -   GZIP compression

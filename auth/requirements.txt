@@ -1,2 +1,9 @@
-fastapi 
-uvicorn 
+fastapi
+uvicorn
+psycopg2-binary
+sqlalchemy
+python-jose[cryptography]
+passlib[bcrypt]
+python-multipart
+pydantic[email]
+dotenv
