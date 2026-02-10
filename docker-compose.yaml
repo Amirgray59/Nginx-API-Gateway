@@ -27,10 +27,14 @@ services:
   auth_v1:
     build: ./auth
     container_name: auth_v1
+    env_file:
+      - .env
 
   auth_v2:
     build: ./auth
     container_name: auth_v2
+    env_file:
+      - .env
 
   # --------------------
   # NOTES SERVICE
@@ -52,14 +56,19 @@ services:
     build: ./assets
     container_name: assets_service
 
+    volumes:
+      - ./static:/main/app/static
+
+
 
   # --------------------
   # POSTGRES
   # --------------------
   postgres:
     image: postgres:16
-    environment:
-      POSTGRES_PASSWORD: example
+    env_file:
+      - .env
+
 
   # --------------------
   # MONGO
