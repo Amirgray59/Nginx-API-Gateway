@@ -11,7 +11,7 @@ using:
 -   Docker & docker-compose
 -   NGINX as reverse proxy and API gateway
 -   CQRS-lite architecture (separated read/write flows)
--   k6 load testing with SLO validation
+-   k6 load testing 
 -   Zero-downtime deployment preparation
 
 هدف این پروژه شبیه‌سازی یک backend واقعی در سطح production است.
@@ -35,27 +35,69 @@ Client → NGINX → Upstream service
 
 # Project Structure
 
+.
 ├── ADR-006.md
 ├── Dockerfile
+├── EVIDENCE_ZERO_DOWNTIME.md
 ├── README.md
 ├── assets
 │   ├── Dockerfile
+│   ├── core
+│   │   ├── __init__.py
+│   │   └── errors.py
 │   ├── main.py
-│   └── requirements.txt
+│   ├── requirements.txt
+│   └── utils
+│       ├── __init__.py
+│       ├── metadata.py
+│       ├── paths.py
+│       ├── router.py
+│       ├── security.py
+│       └── service.py
 ├── auth
 │   ├── Dockerfile
+│   ├── README.md
+│   ├── api
+│   │   └── router.py
+│   ├── core
+│   │   └── security.py
+│   ├── db
+│   │   └── postgres.py
 │   ├── main.py
-│   └── requirements.txt
+│   ├── models
+│   │   └── user.py
+│   ├── requirements.txt
+│   └── services
+│       └── auth_service.py
 ├── docker-compose.yaml
 ├── k6
+│   ├── assets-upload-k6.js
+│   ├── notes-k6.js
+│   ├── test.jpg
 │   └── test.js
-├── k6-report.md
+├── k6_reports
+│   ├── k6-assets-upload-report.md
+│   ├── k6-notes-report.md
+│   ├── k6-auth-report.md
+│   └── k6-report.md
 ├── nginx
 │   └── nginx.conf
-└── notes
-    ├── Dockerfile
-    ├── main.py
-    └── requirements.txt
+├── notes
+│   ├── Dockerfile
+│   ├── README.md
+│   ├── core
+│   │   └── config.py
+│   ├── db
+│   │   └── mongo.py
+│   ├── main.py
+│   ├── models
+│   │   └── note.py
+│   ├── requirements.txt
+│   ├── router
+│   │   └── notes.py
+│   └── services
+│       └── notes_service.py
+
 
 ------------------------------------------------------------------------
 
@@ -169,10 +211,12 @@ After test execution:
 1.  Save summary output.
 2.  Export results into:
 
-```{=html}
-<!-- -->
-```
-    k6-report.md
+    k6_reports/
+│   ├── k6-assets-upload-report.md
+│   ├── k6-notes-report.md
+│   ├── k6-auth-report.md
+│   └── k6-report.md
+
 
 Example contents:
 
@@ -206,16 +250,10 @@ Purpose:
 
 1.  Build containers:
 
-```{=html}
-<!-- -->
-```
     docker compose build
 
 2.  Start stack:
 
-```{=html}
-<!-- -->
-```
     docker compose up
 
 3.  Validate health endpoints.
@@ -230,18 +268,6 @@ Purpose:
 
 -   Services accessible only via NGINX
 -   Health checks available
--   Load testing completed
--   k6 summary meets SLO targets
 -   Zero downtime deployment demonstrated
-
-------------------------------------------------------------------------
-
-# Future Improvements
-
--   HTTPS/TLS termination
--   Prometheus metrics
--   Distributed tracing
--   Structured logging
--   Kubernetes orchestration
 
 ------------------------------------------------------------------------

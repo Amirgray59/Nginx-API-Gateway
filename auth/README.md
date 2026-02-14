@@ -73,7 +73,7 @@ Local direct access example:
 ## Request
 
 ``` bash
-curl http://localhost:8001/health
+curl http://localhost/auth/health
 ```
 
 ## Response
@@ -91,7 +91,7 @@ curl http://localhost:8001/health
 ## Request
 
 ``` bash
-curl -X POST http://localhost:8001/auth/register \
+curl -X POST http://localhost/auth/register \
   -H "Content-Type: application/json" \
   -d '{
         "email": "test@example.com",
@@ -115,7 +115,7 @@ curl -X POST http://localhost:8001/auth/register \
 ## Request
 
 ``` bash
-curl -X POST http://localhost:8001/auth/login \
+curl -X POST http://localhost/auth/login \
   -H "Content-Type: application/json" \
   -d '{
         "email": "test@example.com",
@@ -140,28 +140,24 @@ TOKEN="JWT_TOKEN_HERE"
 
 ------------------------------------------------------------------------
 
-# 4️⃣ Protected Route Example
-
-If you have protected endpoints:
-
-``` bash
-curl http://localhost:8001/auth/me \
-  -H "Authorization: Bearer $TOKEN"
-```
-
-------------------------------------------------------------------------
-
 ## Project Structure (Example)
 
-    auth/
-     ├── main.py
-     ├── routers/
-     │    └── auth.py
-     ├── models/
-     │    └── user.py
-     ├── db/
-     │    └── postgres.py
-     ├── security.py
+├── auth
+│   ├── Dockerfile
+│   ├── README.md
+│   ├── api
+│   │   └── router.py
+│   ├── core
+│   │   └── security.py
+│   ├── db
+│   │   └── postgres.py
+│   ├── main.py
+│   ├── models
+│   │   └── user.py
+│   ├── requirements.txt
+│   └── services
+│       └── auth_service.py
+
 
 ------------------------------------------------------------------------
 
@@ -185,8 +181,7 @@ Rebuild after code changes:
 
 ``` bash
 docker compose down
-docker compose build --no-cache
-docker compose up
+docker compose up --build 
 ```
 
 ------------------------------------------------------------------------
